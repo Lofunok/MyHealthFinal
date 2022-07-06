@@ -79,10 +79,7 @@ export default class Signup extends Component {
           <View style={styles.container}>
             <StatusBar style="auto" />
             {/* Logo */}
-            <Image
-              style={styles.logo}
-              source={require("../../assets/Logo.jpg")}
-            />
+            <Image style={styles.logo} source={require("./assets/Logo.jpg")} />
             {/* Headding */}
             <View style={styles.headingContainer}>
               <Text style={styles.heading}>Create new account</Text>

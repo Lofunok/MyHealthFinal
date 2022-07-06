@@ -11,7 +11,7 @@ import {
 import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { useNavigation } from "@react-navigation/native";
-import firebase from "../config/db";
+/*import firebase from "../src/screens/config/db";*/
 
 export default class Login extends Component {
   constructor() {
@@ -62,10 +62,7 @@ export default class Login extends Component {
       <SafeAreaView>
         <KeyboardAvoidingView>
           <View style={styles.container}>
-            <Image
-              style={styles.logo}
-              source={require("../../assets/Logo.jpg")}
-            />
+            <Image style={styles.logo} source={require("./assets/Logo.jpg")} />
             <StatusBar style="auto" />
             <View style={styles.welcomeTextBox}>
               <Text style={styles.welcomeText}>Welcome To MyHealth.</Text>

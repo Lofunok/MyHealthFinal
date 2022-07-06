@@ -23,7 +23,7 @@ const UserHome = () => {
 
       <StatusBar style="auto" />
       <View style={styles.header}>
-        <Image style={styles.logo} source={require("../../assets/Logo.jpg")} />
+        <Image style={styles.logo} source={require("./assets/Logo.jpg")} />
         <View style={styles.headerTextBox}>
           <Text style={styles.headerText}>Welcome {usersName}</Text>
         </View>
