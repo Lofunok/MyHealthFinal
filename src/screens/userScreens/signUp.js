@@ -13,6 +13,7 @@ import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { useNavigation } from "@react-navigation/native";
 import SelectDropdown from "react-native-select-dropdown";
+import firebase from "../src/config/db";
 
 const paymentMethods = ["Cash", "Medical Aid"];
 

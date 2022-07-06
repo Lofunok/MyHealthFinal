@@ -11,6 +11,7 @@ import React, { useState } from "react";
 import { FontAwesome } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import firebase from "../src/config/db";
 
 const UserHome = () => {
   const navigation = useNavigation();
