@@ -1,14 +1,13 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, SafeAreaView, Image } from "react-native";
 
 export default function App() {
-  let x = 1;
-  console.log("App executed");
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+    <SafeAreaView style={styles.container}>
+      <Text>Big bunda</Text>
       <StatusBar style="auto" />
-    </View>
+      <Image source={require("./assets/Logo.jpg")} />
+    </SafeAreaView>
   );
 }
 
