@@ -13,113 +13,72 @@ import { StatusBar } from "expo-status-bar";
 import { useNavigation } from "@react-navigation/native";
 /*import firebase from "../src/screens/config/db";*/
 
-export default class Login extends Component {
-  constructor() {
-    super();
-    this.state = {
-      email: "",
-      password: "",
-      isLoading: false,
-    };
-  }
-  updateInputVal = (val, prop) => {
-    const state = this.state;
-    state[prop] = val;
-    this.setState(state);
-  };
-  userLogin = () => {
-    if (this.state.email === "" && this.state.password === "") {
-      Alert.alert("Enter details to signin!");
-    } else {
-      this.setState({
-        isLoading: true,
-      });
-      firebase
-        .auth()
-        .signInWithEmailAndPassword(this.state.email, this.state.password)
-        .then((res) => {
-          console.log(res);
-          console.log("User logged-in successfully!");
-          this.setState({
-            isLoading: false,
-            email: "",
-            password: "",
-          });
-          this.props.navigation.navigate("Dashboard");
-        })
-        .catch((error) => this.setState({ errorMessage: error.message }));
-    }
-  };
-  render() {
-    if (this.state.isLoading) {
-      return (
-        <View style={styles.preloader}>
-          <ActivityIndicator size="large" color="#9E9E9E" />
-        </View>
-      );
-    }
-    return (
-      <SafeAreaView>
-        <KeyboardAvoidingView>
-          <View style={styles.container}>
-            <Image style={styles.logo} source={require("./assets/Logo.jpg")} />
-            <StatusBar style="auto" />
-            <View style={styles.welcomeTextBox}>
-              <Text style={styles.welcomeText}>Welcome To MyHealth.</Text>
-            </View>
-            {/* Container for inputs */}
-            <View style={styles.inputsContainter}>
-              <TextInput
-                style={styles.inputStyle}
-                placeholder="Email"
-                value={this.state.email}
-                onChangeText={(val) => this.updateInputVal(val, "email")}
-              />
-              <TextInput
-                style={styles.inputStyle}
-                placeholder="Password"
-                value={this.state.password}
-                onChangeText={(val) => this.updateInputVal(val, "password")}
-                maxLength={15}
-                secureTextEntry={true}
-              />
-              {/* forgot password */}
-            </View>
-            <View style={[styles.screenTextContainer, styles.fP]}>
-              <TouchableOpacity onPress={() => {}}>
-                <Text style={styles.pressableText}>Forgot Password?</Text>
-              </TouchableOpacity>
-            </View>
-            {/* login button */}
-            <View style={styles.buttonContainer}>
-              <TouchableOpacity
-                onPress={() => navigation.navigate("Home")}
-                style={styles.button}
-              >
-                <Text style={styles.buttonText}>Sign In</Text>
-              </TouchableOpacity>
-            </View>
-            {/* sign up link */}
-            <View style={styles.screenTextContainer}>
-              <Text style={styles.regularText}>Don't have an acount?</Text>
-              <TouchableOpacity onPress={() => navigation.navigate("SignUp")}>
-                <Text style={styles.pressableText}> Sign Up</Text>
-              </TouchableOpacity>
-            </View>
-            {/* Admin link */}
-            <View style={[styles.screenTextContainer, styles.adminPosition]}>
-              <TouchableOpacity
-                onPress={() => navigation.navigate("AdminLogin")}
-              >
-                <Text style={styles.pressableText}>Admin</Text>
-              </TouchableOpacity>
-            </View>
+export default function UserLoginScreen() {
+  const navigation = useNavigation();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  return (
+    <SafeAreaView>
+      <KeyboardAvoidingView>
+        <View style={styles.container}>
+          <Image
+            style={styles.logo}
+            source={require("../../../assets/Logo.jpg")}
+          />
+          <StatusBar style="auto" />
+          <View style={styles.welcomeTextBox}>
+            <Text style={styles.welcomeText}>Welcome To MyHealth.</Text>
           </View>
-        </KeyboardAvoidingView>
-      </SafeAreaView>
-    );
-  }
+          {/* Container for inputs */}
+          <View style={styles.inputsContainter}>
+            <TextInput
+              style={styles.input}
+              value={email}
+              onChangeText={(text) => setEmail(text)}
+              placeholder="Email Address"
+            />
+            <TextInput
+              secureTextEntry //hides the password as it's being entered
+              style={styles.input}
+              value={password}
+              onChangeText={(text) => setPassword(text)}
+              placeholder="Password"
+            />
+            {/* forgot password */}
+          </View>
+          <View style={[styles.screenTextContainer, styles.fP]}>
+            <TouchableOpacity onPress={() => {}}>
+              <Text style={styles.pressableText}>Forgot Password?</Text>
+            </TouchableOpacity>
+          </View>
+          {/* login button */}
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("Home")}
+              style={styles.button}
+            >
+              <Text style={styles.buttonText}>Sign In</Text>
+            </TouchableOpacity>
+          </View>
+          {/* sign up link */}
+          <View style={styles.screenTextContainer}>
+            <Text style={styles.regularText}>Don't have an acount?</Text>
+            <TouchableOpacity onPress={() => navigation.navigate("SignUp")}>
+              <Text style={styles.pressableText}> Sign Up</Text>
+            </TouchableOpacity>
+          </View>
+          {/* Admin link */}
+          <View style={[styles.screenTextContainer, styles.adminPosition]}>
+            <TouchableOpacity onPress={() => navigation.navigate("AdminLogin")}>
+              <Text style={styles.pressableText}>Admin</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
+  );
 }
+
 //Component Styles
 const styles = StyleSheet.create({
   container: {

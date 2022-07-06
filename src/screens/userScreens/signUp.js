@@ -13,172 +13,123 @@ import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { useNavigation } from "@react-navigation/native";
 
-export default class Signup extends Component {
-  constructor() {
-    super();
-    this.state = {
-      displayName: "",
-      email: "",
-      password: "",
-      isLoading: false,
-    };
-  }
-  updateInputVal = (val, prop) => {
-    const state = this.state;
-    state[prop] = val;
-    this.setState(state);
-  };
-  registerUser = () => {
-    if (this.state.email === "" && this.state.password === "") {
-      Alert.alert("Enter details to signup!");
-    } else {
-      if (this.state.password != this.state.cpassword) {
-        Alert.alert("Password and confirm password not match!");
-      } else {
-        this.setState({
-          isLoading: true,
-        });
-      }
-
-      firebase
-        .auth()
-        .createUserWithEmailAndPassword(this.state.email, this.state.password)
-        .then((res) => {
-          res.user.updateProfile({
-            displayName: this.state.displayName,
-            displaySurname: this.state.displaySurname,
-          });
-          console.log("User registered successfully!");
-          this.setState({
-            isLoading: false,
-            displayName: "",
-            displaySurname: "",
-            email: "",
-            phoneNumber: "",
-            paymentMethod: "",
-            password: "",
-            cpassword: "",
-          });
-          this.props.navigation.navigate("Login");
-        })
-        .catch((error) => this.setState({ errorMessage: error.message }));
-    }
-  };
-  render() {
-    if (this.state.isLoading) {
-      return (
-        <View style={styles.preloader}>
-          <ActivityIndicator size="large" color="#9E9E9E" />
-        </View>
-      );
-    }
-    return (
-      //Safe area view to avoid elements overlapping onto system elements( e.g status bar)
-      <SafeAreaView>
-        <KeyboardAvoidingView>
-          <View style={styles.container}>
-            <StatusBar style="auto" />
-            {/* Logo */}
-            <Image style={styles.logo} source={require("./assets/Logo.jpg")} />
-            {/* Headding */}
-            <View style={styles.headingContainer}>
-              <Text style={styles.heading}>Create new account</Text>
-            </View>
-            {/* Input Fields */}
-            <View style={styles.inputsContainer}>
-              <TextInput
-                style={styles.input}
-                value={this.state.displayName}
-                onChangeText={(val) => this.updateInputVal(val, "displayName")}
-                placeholder="Name"
-              />
-              <TextInput
-                style={styles.input}
-                value={this.state.displaySurname}
-                onChangeText={(val) =>
-                  this.updateInputVal(val, "displaySurname")
-                }
-                placeholder="Surname"
-              />
-              <TextInput
-                style={styles.input}
-                value={this.state.email}
-                onChangeText={(val) => this.updateInputVal(val, "email")}
-                placeholder="Email Address"
-              />
-              <TextInput
-                style={styles.input}
-                value={this.state.phoneNumber}
-                onChangeText={(val) => this.updateInputVal(val, "phoneNumber")}
-                placeholder="Phone Number"
-              />
-              <TextInput
-                style={styles.input}
-                value={this.state.paymentMethod}
-                onChangeText={(val) => updateInputVal(val, "paymentMethod")}
-                placeholder="Cash/Medical Aid"
-              />
-              <TextInput
-                style={styles.inputStyle}
-                placeholder="Password"
-                value={this.state.password}
-                onChangeText={(val) => this.updateInputVal(val, "password")}
-                maxLength={15}
-                secureTextEntry={true}
-              />
-              <TextInput
-                style={styles.inputStyle}
-                placeholder="Confirm Password"
-                value={this.state.spassword}
-                onChangeText={(val) => this.updateInputVal(val, "cpassword")}
-                maxLength={15}
-                secureTextEntry={true}
-              />
-            </View>
-            {/* Terms of Use and privacy policy agreement */}
-            <View style={styles.screenTextContainer}>
-              <Text style={styles.regularText}>
-                By submtting this form, you are agreeing to our{" "}
-              </Text>
-              <TouchableOpacity
-                onPress={() =>
-                  navigation.navigate("https://myhealth.co,terms-of-use")
-                }
-              >
-                <Text style={styles.pressabletext}>Terms of Use</Text>
-              </TouchableOpacity>
-              <Text style={styles.regularText}> and our </Text>
-              <TouchableOpacity
-                onPress={() =>
-                  navigation.navigate("https://myhealth.co,privacy-policy")
-                }
-              >
-                <Text style={styles.pressabletext}>Privacy Policy</Text>
-              </TouchableOpacity>
-              <Text style={styles.regularText}>.</Text>
-            </View>
-            {/* Create account button */}
-            <View style={styles.buttonContainer}>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => navigation.navigate("SuccessModal")}
-              >
-                <Text style={styles.buttonText}>Create account</Text>
-              </TouchableOpacity>
-            </View>
-            {/* back to sign in link */}
-            <View style={styles.screenTextContainer}>
-              <Text style={styles.regularText}>Already have an account? </Text>
-              <TouchableOpacity onPress={() => navigation.navigate("Login")}>
-                <Text style={styles.pressabletext}>Sign In</Text>
-              </TouchableOpacity>
-            </View>
+const SignUpScreen = () => {
+  const navigation = useNavigation();
+  //States to handle user inputs fro signing in
+  const [name, setName] = useState("");
+  const [surname, setSurname] = useState("");
+  const [email, setEmail] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPass, setConfirmPass] = useState("");
+  return (
+    //Safe area view to avoid elements overlapping onto system elements( e.g status bar)
+    <SafeAreaView>
+      <KeyboardAvoidingView>
+        <View style={styles.container}>
+          <StatusBar style="auto" />
+          {/* Logo */}
+          <Image
+            style={styles.logo}
+            source={require("../../../assets/Logo.jpg")}
+          />
+          {/* Headding */}
+          <View style={styles.headingContainer}>
+            <Text style={styles.heading}>Create new account</Text>
           </View>
-        </KeyboardAvoidingView>
-      </SafeAreaView>
-    );
-  }
-}
+          {/* Input Fields */}
+          <View style={styles.inputsContainer}>
+            <TextInput
+              style={styles.input}
+              value={name}
+              onChangeText={(text) => setName(text)}
+              placeholder="Name"
+            />
+            <TextInput
+              style={styles.input}
+              value={surname}
+              onChangeText={(text) => setSurname(text)}
+              placeholder="Surname"
+            />
+            <TextInput
+              style={styles.input}
+              value={email}
+              onChangeText={(text) => setEmail(text)}
+              placeholder="Email Address"
+            />
+            <TextInput
+              style={styles.input}
+              value={phoneNumber}
+              onChangeText={(text) => setPhoneNumber(text)}
+              placeholder="Phone Number"
+            />
+            <TextInput
+              style={styles.input}
+              value={paymentMethod}
+              onChangeText={(text) => setPaymentMethod(text)}
+              placeholder="Cash/Medical Aid"
+            />
+            <TextInput
+              secureTextEntry
+              style={styles.input}
+              value={password}
+              onChangeText={(text) => setPassword(text)}
+              placeholder="Create Password"
+            />
+            <TextInput
+              secureTextEntry
+              style={styles.input}
+              value={confirmPass}
+              onChangeText={(text) => setConfirmPass(text)}
+              placeholder="Confirm Password"
+            />
+          </View>
+          {/* Terms of Use and privacy policy agreement */}
+          <View style={styles.screenTextContainer}>
+            <Text style={styles.regularText}>
+              By submtting this form, you are agreeing to our{" "}
+            </Text>
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate("https://myhealth.co,terms-of-use")
+              }
+            >
+              <Text style={styles.pressabletext}>Terms of Use</Text>
+            </TouchableOpacity>
+            <Text style={styles.regularText}> and our </Text>
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate("https://myhealth.co,privacy-policy")
+              }
+            >
+              <Text style={styles.pressabletext}>Privacy Policy</Text>
+            </TouchableOpacity>
+            <Text style={styles.regularText}>.</Text>
+          </View>
+          {/* Create account button */}
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => navigation.navigate("SuccessModal")}
+            >
+              <Text style={styles.buttonText}>Create account</Text>
+            </TouchableOpacity>
+          </View>
+          {/* back to sign in link */}
+          <View style={styles.screenTextContainer}>
+            <Text style={styles.regularText}>Already have an account? </Text>
+            <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+              <Text style={styles.pressabletext}>Sign In</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
+  );
+};
+
+export default SignUpScreen;
 
 const styles = StyleSheet.create({
   container: {
