@@ -11,72 +11,110 @@ import {
 import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { useNavigation } from "@react-navigation/native";
-/*import firebase from "../src/screens/config/db";*/
+import firebase from "../src/config/db";
 
-export default function UserLoginScreen() {
-  const navigation = useNavigation();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  return (
-    <SafeAreaView>
-      <KeyboardAvoidingView>
-        <View style={styles.container}>
-          <Image
-            style={styles.logo}
-            source={require("../../../assets/Logo.jpg")}
-          />
-          <StatusBar style="auto" />
-          <View style={styles.welcomeTextBox}>
-            <Text style={styles.welcomeText}>Welcome To MyHealth.</Text>
-          </View>
-          {/* Container for inputs */}
-          <View style={styles.inputsContainter}>
-            <TextInput
-              style={styles.input}
-              value={email}
-              onChangeText={(text) => setEmail(text)}
-              placeholder="Email Address"
+export default class userScreen extends Component {
+  constructor() {
+    super();
+    this.state = {
+      email: "",
+      password: "",
+      isLoading: false,
+    };
+  }
+  updateInputVal = (val, prop) => {
+    const state = this.state;
+    state[prop] = val;
+    this.setState(state);
+  };
+  userLogin = () => {
+    if (this.state.email === "" || this.state.password === "") {
+      Alert.alert("Enter details to login!");
+    } else {
+      this.setState({
+        isLoading: true,
+      });
+      firebase
+        .auth()
+        .signIn(this.state.email, this.state.password)
+        .then((res) => {
+          console.log(res);
+          console.log("User logged-in successfully!");
+          this.setState({
+            isLoading: false,
+            email: "",
+            password: "",
+          });
+          this.props.navigation.navigate("Home");
+        })
+        .catch((error) => this.setState({ errorMessage: error.message }));
+    }
+  };
+
+  render() {
+    return (
+      <SafeAreaView>
+        <KeyboardAvoidingView>
+          <View style={styles.container}>
+            <Image
+              style={styles.logo}
+              source={require("../../../assets/Logo.jpg")}
             />
-            <TextInput
-              secureTextEntry //hides the password as it's being entered
-              style={styles.input}
-              value={password}
-              onChangeText={(text) => setPassword(text)}
-              placeholder="Password"
-            />
-            {/* forgot password */}
+            <StatusBar style="auto" />
+            <View style={styles.welcomeTextBox}>
+              <Text style={styles.welcomeText}>Welcome To MyHealth</Text>
+            </View>
+            {/* Container for inputs */}
+            <View style={styles.inputsContainter}>
+              <TextInput
+                style={styles.input}
+                value={email}
+                onChangeText={(text) => setEmail(text)}
+                placeholder="Email Address"
+              />
+              <TextInput
+                secureTextEntry //hides the password as it's being entered
+                style={styles.input}
+                value={password}
+                onChangeText={(text) => setPassword(text)}
+                placeholder="Password"
+              />
+              {/* forgot password */}
+            </View>
+            <View style={[styles.screenTextContainer, styles.fP]}>
+              <TouchableOpacity onPress={() => {}}>
+                <Text style={styles.pressableText}>Forgot Password?</Text>
+              </TouchableOpacity>
+            </View>
+            {/* login button */}
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity
+                onPress={() => this.userLogin()}
+                style={styles.button}
+              >
+                <Text style={styles.buttonText}>Sign In</Text>
+              </TouchableOpacity>
+            </View>
+            {/* sign up link */}
+            <View style={styles.screenTextContainer}>
+              <Text style={styles.regularText}>Don't have an acount?</Text>
+              <TouchableOpacity onPress={() => navigation.navigate("SignUp")}>
+                <Text style={styles.pressableText}> Sign Up</Text>
+              </TouchableOpacity>
+            </View>
+            {/* Admin link */}
+            <View style={[styles.screenTextContainer, styles.adminPosition]}>
+              <TouchableOpacity
+                onPress={() => this.prop.navigation.navigate("Admin")}
+              >
+                <Text style={styles.pressableText}>Admin</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-          <View style={[styles.screenTextContainer, styles.fP]}>
-            <TouchableOpacity onPress={() => {}}>
-              <Text style={styles.pressableText}>Forgot Password?</Text>
-            </TouchableOpacity>
-          </View>
-          {/* login button */}
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity
-              onPress={() => navigation.navigate("Home")}
-              style={styles.button}
-            >
-              <Text style={styles.buttonText}>Sign In</Text>
-            </TouchableOpacity>
-          </View>
-          {/* sign up link */}
-          <View style={styles.screenTextContainer}>
-            <Text style={styles.regularText}>Don't have an acount?</Text>
-            <TouchableOpacity onPress={() => navigation.navigate("SignUp")}>
-              <Text style={styles.pressableText}> Sign Up</Text>
-            </TouchableOpacity>
-          </View>
-          {/* Admin link */}
-          <View style={[styles.screenTextContainer, styles.adminPosition]}>
-            <TouchableOpacity onPress={() => navigation.navigate("AdminLogin")}>
-              <Text style={styles.pressableText}>Admin</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </KeyboardAvoidingView>
-    </SafeAreaView>
-  );
+        </KeyboardAvoidingView>
+      </SafeAreaView>
+    );
+  }
 }
 
 //Component Styles
@@ -93,7 +131,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: 165,
     height: 175,
-    marginTop: 60,
+    marginTop: 100,
     borderRadius: 30,
   },
   welcomeTextBox: {
@@ -108,14 +146,14 @@ const styles = StyleSheet.create({
     fontFamily: "normal",
     fontStyle: "normal",
     fontWeight: "600",
-    fontSize: 36,
-    lineHeight: 39,
+    fontSize: 22,
+    lineHeight: 30,
     textAlign: "center",
     color: "#000000",
   },
   inputsContainter: {
     width: "90%",
-    marginTop: 15,
+    marginTop: 1,
   },
   input: {
     backgroundColor: "rgba(255, 88, 88, 0.15)",
@@ -129,7 +167,7 @@ const styles = StyleSheet.create({
     position: "relative",
     justifyContent: "center",
     alignItems: "center",
-    height: 18,
+    height: 20,
   },
   regularText: {
     fontFamily: "normal",
@@ -174,6 +212,9 @@ const styles = StyleSheet.create({
     marginLeft: 200,
   },
   adminPosition: {
-    marginTop: 100,
+    position: "relative",
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 100,
   },
 });
