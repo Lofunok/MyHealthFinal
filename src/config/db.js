@@ -1,5 +1,5 @@
-import firebase from "firebase/compat/app";
-let config = {
+import * as firebase from "firebase/app";
+const config = {
   apiKey: "AIzaSyA060qd9WWud3l2o3EtAPfRX-zEwTYqDaQ",
   authDomain: "myhealth-bfff0.firebaseapp.com",
   databaseURL:
@@ -11,11 +11,5 @@ let config = {
   measurementId: "G-CEWNBV6W8X",
 };
 
-let app;
-
-if (firebase.apps.length === 0) {
-  app = initializeApp(config);
-} else {
-  app = firebase.app();
-}
-var postRef = database.ref().child("posts");
+firebase.initializeApp(config);
+export default firebase;

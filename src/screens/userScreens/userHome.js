@@ -7,7 +7,7 @@ import {
   View,
   Image,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, Component } from "react";
 import { FontAwesome } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";

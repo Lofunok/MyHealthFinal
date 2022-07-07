@@ -5,10 +5,11 @@ import {
   TextInput,
   View,
   Image,
+  Alert,
   TouchableOpacity,
   KeyboardAvoidingView,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, Component } from "react";
 import { StatusBar } from "expo-status-bar";
 import { useNavigation } from "@react-navigation/native";
 import firebase from "../../../src/config/db";
@@ -68,23 +69,19 @@ export default class UserLoginScreen extends Component {
             <View style={styles.inputsContainter}>
               <TextInput
                 style={styles.input}
-                value={email}
-                onChangeText={(text) => setEmail(text)}
-                placeholder="Email Address"
+                placeholder="Email"
+                value={this.state.email}
+                onChangeText={(val) => this.updateInputVal(val, "email")}
               />
               <TextInput
-                secureTextEntry //hides the password as it's being entered
                 style={styles.input}
-                value={password}
-                onChangeText={(text) => setPassword(text)}
                 placeholder="Password"
+                value={this.state.password}
+                onChangeText={(val) => this.updateInputVal(val, "password")}
+                maxLength={15}
+                secureTextEntry={true}
               />
               {/* forgot password */}
-            </View>
-            <View style={[styles.screenTextContainer, styles.fP]}>
-              <TouchableOpacity onPress={() => {}}>
-                <Text style={styles.pressableText}>Forgot Password?</Text>
-              </TouchableOpacity>
             </View>
             {/* login button */}
             <View style={styles.buttonContainer}>
@@ -98,7 +95,9 @@ export default class UserLoginScreen extends Component {
             {/* sign up link */}
             <View style={styles.screenTextContainer}>
               <Text style={styles.regularText}>Don't have an acount?</Text>
-              <TouchableOpacity onPress={() => navigation.navigate("SignUp")}>
+              <TouchableOpacity
+                onPress={() => this.prop.navigation.navigate("SignUp")}
+              >
                 <Text style={styles.pressableText}> Sign Up</Text>
               </TouchableOpacity>
             </View>

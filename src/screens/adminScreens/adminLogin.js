@@ -8,12 +8,12 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, Component } from "react";
 import { StatusBar } from "expo-status-bar";
 import { useNavigation } from "@react-navigation/native";
 import firebase from "../../../src/config/db";
 
-export default class userScreen extends Component {
+export default class AdminLoginScreen extends Component {
   constructor() {
     super();
     this.state = {
@@ -27,7 +27,7 @@ export default class userScreen extends Component {
     state[prop] = val;
     this.setState(state);
   };
-  userLogin = () => {
+  adminLogin = () => {
     if (this.state.email === "" || this.state.password === "") {
       Alert.alert("Enter details to login!");
     } else {
@@ -45,7 +45,7 @@ export default class userScreen extends Component {
             email: "",
             password: "",
           });
-          this.props.navigation.navigate("Home");
+          this.props.navigation.navigate("AdminHome");
         })
         .catch((error) => this.setState({ errorMessage: error.message }));
     }
@@ -89,25 +89,18 @@ export default class userScreen extends Component {
             {/* login button */}
             <View style={styles.buttonContainer}>
               <TouchableOpacity
-                onPress={() => this.userLogin()}
+                onPress={() => this.adminLogin()}
                 style={styles.button}
               >
                 <Text style={styles.buttonText}>Sign In</Text>
               </TouchableOpacity>
             </View>
-            {/* sign up link */}
-            <View style={styles.screenTextContainer}>
-              <Text style={styles.regularText}>Don't have an acount?</Text>
-              <TouchableOpacity onPress={() => navigation.navigate("SignUp")}>
-                <Text style={styles.pressableText}> Sign Up</Text>
-              </TouchableOpacity>
-            </View>
             {/* Admin link */}
             <View style={[styles.screenTextContainer, styles.adminPosition]}>
               <TouchableOpacity
-                onPress={() => this.prop.navigation.navigate("Admin")}
+                onPress={() => this.prop.navigation.navigate("Login")}
               >
-                <Text style={styles.pressableText}>Admin</Text>
+                <Text style={styles.pressableText}>User</Text>
               </TouchableOpacity>
             </View>
           </View>
