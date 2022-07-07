@@ -1,4 +1,4 @@
-import Firebase from "firebase";
+import firebase from "firebase/compat/app";
 let config = {
   apiKey: "AIzaSyA060qd9WWud3l2o3EtAPfRX-zEwTYqDaQ",
   authDomain: "myhealth-bfff0.firebaseapp.com",
@@ -10,5 +10,12 @@ let config = {
   appId: "1:346169846585:web:bb49ea8c7973ab11bf96e8",
   measurementId: "G-CEWNBV6W8X",
 };
-let app = Firebase.initializeApp(config);
-export const db = app.database();
+
+let app;
+
+if (firebase.apps.length === 0) {
+  app = initializeApp(config);
+} else {
+  app = firebase.app();
+}
+var postRef = database.ref().child("posts");

@@ -13,11 +13,11 @@ import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { useNavigation } from "@react-navigation/native";
 import SelectDropdown from "react-native-select-dropdown";
-import firebase from "../src/config/db";
+import firebase from "../../../src/config/db";
 
 const paymentMethods = ["Cash", "Medical Aid"];
 
-export default class signUp extends Component {
+export default class SignUp extends Component {
   constructor() {
     super();
     this.state = {

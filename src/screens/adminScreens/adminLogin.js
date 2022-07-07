@@ -13,7 +13,7 @@ import { StatusBar } from "expo-status-bar";
 import { useNavigation } from "@react-navigation/native";
 import firebase from "../../../src/config/db";
 
-export default class UserLoginScreen extends Component {
+export default class userScreen extends Component {
   constructor() {
     super();
     this.state = {
