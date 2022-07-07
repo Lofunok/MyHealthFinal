@@ -96,7 +96,7 @@ export default class UserLoginScreen extends Component {
             <View style={styles.screenTextContainer}>
               <Text style={styles.regularText}>Don't have an acount?</Text>
               <TouchableOpacity
-                onPress={() => this.prop.navigation.navigate("SignUp")}
+                onPress={() => this.props.navigation.navigate("SignUp")}
               >
                 <Text style={styles.pressableText}> Sign Up</Text>
               </TouchableOpacity>
@@ -104,7 +104,7 @@ export default class UserLoginScreen extends Component {
             {/* Admin link */}
             <View style={[styles.screenTextContainer, styles.adminPosition]}>
               <TouchableOpacity
-                onPress={() => this.prop.navigation.navigate("Admin")}
+                onPress={() => this.props.navigation.navigate("Admin")}
               >
                 <Text style={styles.pressableText}>Admin</Text>
               </TouchableOpacity>

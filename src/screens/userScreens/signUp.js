@@ -82,7 +82,7 @@ export default class SignUp extends Component {
             password: "",
             cPassword: "",
           });
-          this.props.navigation.navigate("Login");
+          navigation.navigate("Login");
         })
         .catch((error) => this.setState({ errorMessage: error.message }));
     }
@@ -193,9 +193,7 @@ export default class SignUp extends Component {
             {/* back to sign in link */}
             <View style={styles.screenTextContainer}>
               <Text style={styles.regularText}>Already have an account? </Text>
-              <TouchableOpacity
-                onPress={() => this.props.navigation.navigate("Login")}
-              >
+              <TouchableOpacity onPress={() => navigation.navigate("Login")}>
                 <Text style={styles.pressabletext}>Sign In</Text>
               </TouchableOpacity>
             </View>
