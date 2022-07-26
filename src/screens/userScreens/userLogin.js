@@ -1,5 +1,4 @@
 import {
-  SafeAreaView,
   StyleSheet,
   Text,
   TextInput,
@@ -13,6 +12,7 @@ import React, { useState, Component } from "react";
 import { StatusBar } from "expo-status-bar";
 import { useNavigation } from "@react-navigation/native";
 import firebase from "../../../src/config/db";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default class UserLoginScreen extends Component {
   constructor() {
